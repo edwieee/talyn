@@ -161,6 +161,3 @@ For another Node.js host, install dependencies with `npm ci`, run `npm run build
 
 The `.gitignore` excludes environment files, local credentials, private key files, dependency folders, generated types, build output, deployment state, test output, and local editor files. `package-lock.json` is retained for reproducible installation. Any future `.env.example` should contain placeholders only.
 
-## Design reference
-
-The interface structure was inspired by [AI Design Jobs](https://ai-design-jobs.vercel.app/). TALYN's implementation is original, with a white theme, serif heading, locally generated character field, compact controls, and a table-based job list. Company icons use Google's favicon service with an initial-letter fallback.
