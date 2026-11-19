@@ -15,6 +15,25 @@ const posting = {
   descriptionPlain: "Build AI applications with our customers.",
 };
 
+test("configured company and board identities are unique and domains are valid", () => {
+  assert.equal(new Set(COMPANIES.map(company => company.id)).size, COMPANIES.length);
+  assert.equal(new Set(COMPANIES.map(company => company.board.toLowerCase())).size, COMPANIES.length);
+  for (const company of COMPANIES) {
+    assert.ok(company.name.trim());
+    assert.match(company.id, /^[a-z0-9-]+$/);
+    assert.equal(new URL(`https://${company.domain}`).hostname, company.domain);
+    assert.equal(new URL(`https://${company.domain}`).pathname, "/");
+  }
+});
+
+test("remote listings preserve regional restrictions without admitting hybrid jobs", () => {
+  const feed = normalizeFeed({ jobs: [{ ...posting, location: "Europe", secondaryLocations: [{ location: "United Kingdom" }, { location: "Ireland" }], workplaceType: "Remote" }, { ...posting, jobUrl: `${posting.jobUrl}-hybrid`, workplaceType: "Hybrid" }] }, company, now);
+  const remoteJobs = filterJobs(feed.jobs, "", true, []);
+  assert.equal(remoteJobs.length, 1);
+  assert.deepEqual(remoteJobs[0].locations, ["Europe", "United Kingdom", "Ireland"]);
+  assert.equal(filterJobs(remoteJobs, "Ireland", true, []).length, 1);
+});
+
 test("AI/LLM application engineering roles are included", () => {
   for (const title of ["AI Engineer", "Applied AI Engineering Manager", "LLM Application Developer", "Software Engineer, Agents", "Senior Generative AI Engineer", "AI Solutions Engineer", "Agentic AI Engineer"]) {
     assert.equal(isRelevantRole(title), true, title);

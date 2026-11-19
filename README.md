@@ -6,7 +6,7 @@ TALYN brings published engineering openings from selected AI companies into a mi
 
 ## Features
 
-- **Live employer feeds** — server-side fetching from 11 configured companies.
+- **Live employer feeds** — server-side fetching from 14 configured companies, including remote opportunities at LiveKit, TRM Labs, and Reflow.
 - **Focused role filtering** — rules for AI, LLM, agent, and relevant application engineering roles.
 - **Combined search and filters** — search roles, companies, and locations; select companies and fully remote openings together.
 - **Useful listing details** — company identity, role, locations, publication age, and a direct application link.
@@ -83,7 +83,7 @@ flowchart LR
     Cache --> Board[Interactive React job board]
 ```
 
-The home page requests job data on the server. Each employer has an independently cached snapshot. On a cache miss, the fetcher requests the public board endpoint, validates and normalizes its response, and stores the resulting snapshot. Readers are processed in batches of four, with a 15-second timeout per provider request.
+The home page requests job data on the server. Each employer has an independently cached snapshot. On a cache miss, the fetcher requests the public board endpoint, validates and normalizes its response, and stores the resulting snapshot. Readers are processed in batches of six, with a 15-second timeout per provider request. The 14 configured boards fit within three timeout windows, leaving rendering headroom in the page's 60-second function budget.
 
 The combined results are sorted by publication time and passed to the client component. Search and company/remote filtering then run locally against that list. Apply links open the employer's application page in a new tab.
 
@@ -115,7 +115,7 @@ TALYN currently reads the [Ashby Job Posting API](https://developers.ashbyhq.com
 GET https://api.ashbyhq.com/posting-api/job-board/{board}
 ```
 
-Configured employers: **OpenAI, Perplexity, Cohere, LangChain, Harvey, ElevenLabs, Sierra, Writer, Replit, Baseten, and Cognition**. The company list and exact board identifiers live in `src/lib/jobs.ts`.
+Configured employers: **OpenAI, Perplexity, Cohere, LangChain, Harvey, ElevenLabs, Sierra, Writer, Replit, Baseten, Cognition, LiveKit, TRM Labs, and Reflow**. The company list and exact board identifiers live in `src/lib/jobs.ts`.
 
 To add an employer, add its company ID, display name, verified Ashby board identifier, and domain to the `COMPANIES` array, then verify its public feed and resulting listings. Only Ashby-backed sources are implemented currently.
 
@@ -135,6 +135,8 @@ Only jobs with `isListed === true` are considered. Titles and, for selected gene
 The app retains summary fields and source/application URLs. Full descriptions are used during filtering but are not retained in the normalized listing records. There is no internal job-detail page, database, ingestion history, scheduled worker, or automatic company-discovery pipeline.
 
 Remote Only requires `workplaceType === "Remote"`; hybrid roles and unspecified workplace types do not qualify. Publication dates come from the provider and represent its last publication time. Unknown dates remain unknown.
+
+Remote does not necessarily mean worldwide: listings retain employer-provided country, region, and location restrictions. New listings are fetched from the configured feeds as they refresh; no job records are hardcoded into the application.
 
 Closed or unlisted jobs disappear after a successful refreshed feed omits them. Application pages are not independently checked by the production app, so cached listings should be treated as the last known employer data.
 

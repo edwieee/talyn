@@ -22,9 +22,11 @@ const readers = COMPANIES.map(company => unstable_cache(
 
 export async function getJobs(): Promise<JobsData> {
   const results: PromiseSettledResult<FeedSnapshot>[] = [];
-  // Bounded parallelism keeps cold starts polite to the provider.
-  for (let index = 0; index < readers.length; index += 4) {
-    results.push(...await Promise.allSettled(readers.slice(index, index + 4).map(read => read())));
+  // Six requests per batch keeps 14 boards within three 15-second timeout
+  // windows, leaving rendering headroom in the page's 60-second budget.
+  const batchSize = 6;
+  for (let index = 0; index < readers.length; index += batchSize) {
+    results.push(...await Promise.allSettled(readers.slice(index, index + batchSize).map(read => read())));
   }
   results.forEach((result, index) => {
     if (result.status === "rejected") console.error(`[jobs:${COMPANIES[index].id}]`, String(result.reason));

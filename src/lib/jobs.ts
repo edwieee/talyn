@@ -46,6 +46,9 @@ export const COMPANIES: Company[] = [
   { id: "replit", name: "Replit", board: "replit", domain: "replit.com" },
   { id: "baseten", name: "Baseten", board: "baseten", domain: "baseten.co" },
   { id: "cognition", name: "Cognition", board: "cognition", domain: "cognition.ai" },
+  { id: "livekit", name: "LiveKit", board: "livekit", domain: "livekit.io" },
+  { id: "trm-labs", name: "TRM Labs", board: "trm-labs", domain: "trmlabs.com" },
+  { id: "reflow", name: "Reflow", board: "reflow", domain: "reflow.ai" },
 ];
 
 function text(value: unknown): string {
