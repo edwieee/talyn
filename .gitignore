@@ -1,0 +1,54 @@
+# Dependencies
+node_modules/
+.pnp.*
+
+# Next.js, build output, and generated types
+.next/
+out/
+build/
+dist/
+next-env.d.ts
+*.tsbuildinfo
+.turbo/
+.cache/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+.npmrc
+*.pem
+*.key
+*.p12
+*.pfx
+credentials.json
+service-account*.json
+.aws/
+.ssh/
+
+# Deployment state
+.vercel/
+.netlify/
+
+# Test output
+coverage/
+playwright-report/
+test-results/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Editor and operating-system files
+.idea/
+.vscode/
+*.code-workspace
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+Desktop.ini

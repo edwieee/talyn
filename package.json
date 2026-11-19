@@ -1,0 +1,28 @@
+{
+  "name": "ai-engineering-jobs",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --hostname 127.0.0.1",
+    "build": "next build",
+    "start": "next start --hostname 127.0.0.1",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/jobs.test.ts"
+  },
+  "dependencies": {
+    "next": "16.4.6",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "server-only": "^0.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "4.3.5",
+    "@types/node": "^24.0.0",
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "tailwindcss": "4.3.5",
+    "typescript": "latest"
+  },
+  "engines": { "node": ">=24.22.1 <25" }
+}
